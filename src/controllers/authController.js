@@ -71,7 +71,8 @@ exports.googleCallback = async (req, res, next) => {
   try {
     const tokens = await generateTokens(req.user);
     // Redirect to frontend with tokens in URL
-    res.redirect(`http://localhost:5173/oauth-callback?accessToken=${tokens.accessToken}&refreshToken=${tokens.refreshToken}&userId=${req.user._id}`);
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    res.redirect(`${frontendUrl}/oauth-callback?accessToken=${tokens.accessToken}&refreshToken=${tokens.refreshToken}&userId=${req.user._id}`);
   } catch (err) {
     next(err);
   }

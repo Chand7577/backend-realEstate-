@@ -6,7 +6,7 @@ const serviceSchema = new mongoose.Schema({
   description: { type: String, required: true },
   serviceType: { type: String, enum: ['vastu', 'interior', 'exterior', 'legal', 'financial'], required: true },
   pricing: {
-    type: { type: String, enum: ['FIXED', 'HOURLY', 'CUSTOM'], required: true },
+    type: { type: String, enum: ['FIXED', 'HOURLY', 'DAILY', 'CUSTOM'], required: true },
     amount: { type: Number, validate: Number.isInteger }, // paise
     currency: { type: String, default: 'INR' }
   },

@@ -20,10 +20,17 @@ initJobs();
 // Passport Config
 require('./src/config/passport');
 
+const path = require('path');
+
 const app = express();
 
+// Serve uploads statically
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Middlewares
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: false,
+}));
 app.use(cors());
 
 // Webhook route needs raw body parser for signature checking if doing it cleanly,
@@ -45,6 +52,7 @@ app.use('/api/payments', require('./src/routes/paymentRoutes'));
 app.use('/api/admin', require('./src/routes/adminRoutes'));
 app.use('/api/credits', require('./src/routes/creditRoutes'));
 app.use('/api/notifications', require('./src/routes/notificationRoutes'));
+app.use('/api/kyc', require('./src/routes/kycRoutes'));
 
 // Error Handler Middleware
 const errorHandler = require('./src/middlewares/errorHandler');

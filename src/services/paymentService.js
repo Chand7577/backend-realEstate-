@@ -86,14 +86,7 @@ exports.verifyAndGrantCredits = async (razorpayOrderId, razorpayPaymentId, razor
     await payment.save({ session });
     await session.commitTransaction();
 
-    notificationService.sendNotification({
-      userId: payment.userId,
-      type: 'PAYMENT_SUCCESS',
-      title: 'Payment Successful',
-      body: `Your payment was successful and ${payment.creditsGranted} credits have been added.`
-    }).catch(console.error);
-
-    // Also notify all admins
+    // Only notify all admins
     const user = await mongoose.model('User').findById(payment.userId);
     notificationService.notifyAdmins({
       type: 'PAYMENT_SUCCESS',

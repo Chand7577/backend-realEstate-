@@ -4,21 +4,40 @@ const propertySchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
-  propertyType: { type: String, enum: ['apartment', 'villa', 'plot', 'commercial', 'pg'], required: true },
+  propertyType: { type: String, enum: ['apartment', 'villa', 'penthouse', 'plot', 'commercial', 'pg'], required: true },
   listingType: { type: String, enum: ['SALE', 'RENT', 'LEASE'], required: true },
   price: { type: Number, required: true, validate: Number.isInteger }, // Use paise if preferred, otherwise large int
+  
+  // Property Specifications
+  bedrooms: { type: Number },
+  bathrooms: { type: Number },
+  totalArea: { type: Number },
+  furnishing: { type: String, enum: ['fully', 'semi', 'unfurnished'] },
+  yearBuilt: { type: Number },
+  lotSize: { type: String }, // e.g., "0.8 Acres"
+  propertyTax: { type: Number },
+  parking: { type: String }, // e.g., "3-Car Garage"
+  
+  clientDetails: {
+    name: { type: String },
+    phone: { type: String },
+    email: { type: String },
+    showContactToPublic: { type: Boolean, default: false }
+  },
+
   location: {
     address: String,
     city: String,
     state: String,
     pincode: String,
     coordinates: {
-      type: { type: String, enum: ['Point'], default: 'Point' },
+      type: { type: String, enum: ['Point'] },
       coordinates: { type: [Number] } // [longitude, latitude]
     }
   },
   amenities: [{ type: String }],
   images: [{ type: String }],
+  videoUrl: { type: String },
   status: { 
     type: String, 
     enum: ['DRAFT', 'PENDING_REVIEW', 'ACTIVE', 'REJECTED', 'EXPIRED', 'SOLD'], 
